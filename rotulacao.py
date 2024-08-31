@@ -31,6 +31,14 @@ def preto_branco(img):
     return nova_img
 
 def colorir_rotulos(img, matriz_rotulos):
+    """
+        Função utilizada para colorir os objetos identificados na imagem após a rotulação.
+
+        : param img: recebe a imagem binária a ser colorida;
+        : param matriz_rotulos: recebe a matriz contendo os rótulos de cada pixel;
+
+        : return img_colorida: retorna a imagem colorida.
+    """
     largura, altura = img.size
 
     # Criar um novo dicionário para mapear rótulos a cores
@@ -44,7 +52,7 @@ def colorir_rotulos(img, matriz_rotulos):
     img_colorida = Image.new("RGB", (largura, altura))
     pixels_img_colorida = img_colorida.load()
 
-    # Passo 1: Associar uma cor a cada rótulo único
+    # Associar uma cor a cada rótulo único
     for x in range(largura):
         for y in range(altura):
             rotulo = matriz_rotulos[x][y]
@@ -55,65 +63,14 @@ def colorir_rotulos(img, matriz_rotulos):
 
     return img_colorida
 
-"""def rotulacao(img):
-    largura, altura = img.size
-    equivalencias = {}
-    rotulos = []
-    ultimo_rotulo = 0
-    matriz_rotulos = []
-    
-    # Função que gera a imagem binária para rotulação
-    img_preto_branco = preto_branco(img)
-
-    pixels_img_pb = img_preto_branco.load()
-
-    ## algoritmo rotulação
-    for x in range(largura):
-        matriz_rotulos.append(list())
-        for y in range(altura):
-            matriz_rotulos[x].append('')
-            if pixels_img_pb[x, y] == (255, 255, 255) and x > 0 and y > 0:  # Isto é, se o pixel for branco (1)
-                if pixels_img_pb[x - 1, y] == (0, 0, 0) and pixels_img_pb[x, y - 1] == (0, 0, 0):
-                    #novo label para pixels_img_pb[x, y]
-                    if len(rotulos) - 1 < ultimo_rotulo:
-                        rotulos.append(f'{ultimo_rotulo}')
-                    matriz_rotulos[x][y] = rotulos[ultimo_rotulo]
-                    ultimo_rotulo += 1
-                elif (pixels_img_pb[x - 1, y] == (255, 255, 255) and pixels_img_pb[x, y - 1] == (0, 0, 0)) or (pixels_img_pb[x - 1, y] == (0, 0, 0) and pixels_img_pb[x, y - 1] == (255, 255, 255)):
-                    #rotula pixels_img_pb[x, y] com rótulo de r ou t
-                    matriz_rotulos[x][y] = matriz_rotulos[x - 1][y]
-                elif (pixels_img_pb[x - 1, y] == (255, 255, 255) and pixels_img_pb[x, y - 1] == (255, 255, 255)) and matriz_rotulos[x - 1][y] == matriz_rotulos[x][y - 1]:
-                    # se r == 1, t == 1 e ambos possuem o mesmo rótulo
-                    #rotula-se p com esse rótulo
-                    matriz_rotulos[x][y] = matriz_rotulos[x - 1][y]
-                elif (pixels_img_pb[x - 1, y] == (255, 255, 255) and pixels_img_pb[x, y - 1] == (255, 255, 255)) and matriz_rotulos[x - 1][y] != matriz_rotulos[x][y - 1] and matriz_rotulos[x][y - 1] != '' and matriz_rotulos[x - 1][y] != '':
-                    # se r==1, t==1 e possuem rótulos diferentes
-                    #rotula-se p com um dos rótulos e declara equivalência na lista
-                    matriz_rotulos[x][y] = matriz_rotulos[x - 1][y]
-                    equivalencias[matriz_rotulos[x - 1][y]] = matriz_rotulos[x][y - 1]
-
-    # Passo 1: Encontrar o rótulo final para cada conjunto de rótulos equivalentes
-    def encontrar_rotulo_final(rotulo, equivalencias):
-        # Seguir as equivalências até encontrar o rótulo final
-        while rotulo in equivalencias:
-            rotulo = equivalencias[rotulo]
-        return rotulo
-
-    # Atualizar o dicionário de equivalências para que cada rótulo aponte para o rótulo final
-    for rotulo in equivalencias.keys():
-        rotulo_final = encontrar_rotulo_final(rotulo, equivalencias)
-        equivalencias[rotulo] = rotulo_final
-
-    # Passo 2: Atualizar a matriz de rótulos com os rótulos finais
-    for x in range(largura):
-        for y in range(altura):
-            rotulo = matriz_rotulos[x][y]
-            if rotulo in equivalencias:
-                matriz_rotulos[x][y] = equivalencias[rotulo]
-
-    return colorir_rotulos(img_preto_branco, matriz_rotulos)"""
 
 def rotulacao(img):
+    """
+        Função que faz a rotulação de uma imagem binária
+
+        : param img: recebe a imagem a ser rotulada (labelling)
+        : return img_colorida: retorna a imagem depois de ser colorida de acordo com a rotulação.
+    """
     largura, altura = img.size
     equivalencias = {}
     rotulos = []
@@ -125,14 +82,15 @@ def rotulacao(img):
 
     pixels_img_pb = img_preto_branco.load()
 
-    ## algoritmo rotulação
+    # Algoritmo de rotulação
+    # Percorre todos os pixels da imagem binária
     for x in range(largura):
         matriz_rotulos.append(list())
         for y in range(altura):
             matriz_rotulos[x].append('')
 
             if pixels_img_pb[x, y] == (255, 255, 255):  # Isto é, se o pixel for branco (1)
-                vizinhos_rotulados = []
+                vizinhos_rotulados = []  # Cria uma lista para auxiliar na tomada de decisão em relação aos rótulos
 
                 # Verifica o pixel à esquerda (x - 1, y)
                 if x > 0 and matriz_rotulos[x - 1][y] != '':
@@ -144,13 +102,13 @@ def rotulacao(img):
 
                 if len(vizinhos_rotulados) == 0:
                     # Novo rótulo se nenhum vizinho foi rotulado
-                    if len(rotulos) - 1 < ultimo_rotulo:
+                    if len(rotulos) - 1 < ultimo_rotulo:  # Gera um novo rótulo, caso haja necessidade
                         rotulos.append(f'{ultimo_rotulo}')
                     matriz_rotulos[x][y] = rotulos[ultimo_rotulo]
                     ultimo_rotulo += 1
 
                 elif len(vizinhos_rotulados) == 1:
-                    # Apenas um vizinho rotulado, usa o mesmo rótulo
+                    # Apenas um vizinho rotulado, aplica o mesmo rótulo ao pixel
                     matriz_rotulos[x][y] = vizinhos_rotulados[0]
 
                 else:
@@ -162,7 +120,7 @@ def rotulacao(img):
                         if rotulo != matriz_rotulos[x][y]:
                             equivalencias[rotulo] = matriz_rotulos[x][y]
 
-    # Passo 1: Encontrar o rótulo final para cada conjunto de rótulos equivalentes
+    # Encontrar o rótulo final para cada conjunto de rótulos equivalentes
     def encontrar_rotulo_final(rotulo, equivalencias):
         # Seguir as equivalências até encontrar o rótulo final
         while rotulo in equivalencias:
@@ -174,14 +132,17 @@ def rotulacao(img):
         rotulo_final = encontrar_rotulo_final(rotulo, equivalencias)
         equivalencias[rotulo] = rotulo_final
 
-    # Passo 2: Atualizar a matriz de rótulos com os rótulos finais
+    # Atualizar a matriz de rótulos com os rótulos finais
     for x in range(largura):
         for y in range(altura):
             rotulo = matriz_rotulos[x][y]
             if rotulo in equivalencias:
                 matriz_rotulos[x][y] = equivalencias[rotulo]
 
-    return colorir_rotulos(img_preto_branco, matriz_rotulos)
+    # Gera a imagem colorida de acordo com os rótulos obtidos ao final da rotulação
+    img_colorida = colorir_rotulos(img_preto_branco, matriz_rotulos)
+
+    return img_colorida
 
 
 def main():
