@@ -1,14 +1,7 @@
-"""
-2 operações aritméticas: adição, subtração, divisão,
-multiplicação.
- 1 operação geométrica: rotação, translação, espelhamento ou
-reflexão.
-"""
-
 from PIL import Image
 
 
-def subtracao(img_1, img_2, offset=30):
+def subtracao(img_1, img_2):
     # Converter as imagens para o modo RGB se estiver em grayscale
     if img_1.mode != 'RGB':
         img_1 = img_1.convert('RGB')
@@ -31,9 +24,9 @@ def subtracao(img_1, img_2, offset=30):
     # Iterando sobre cada pixel
     for x in range(largura):
         for y in range(altura):
-            r = max(pixels_img_1[x, y][0] - pixels_img_2[x, y][0] + offset, 0)
-            g = max(pixels_img_1[x, y][1] - pixels_img_2[x, y][1] + offset, 0)
-            b = max(pixels_img_1[x, y][2] - pixels_img_2[x, y][2] + offset, 0)
+            r = max(pixels_img_1[x, y][0] - pixels_img_2[x, y][0], 0)
+            g = max(pixels_img_1[x, y][1] - pixels_img_2[x, y][1], 0)
+            b = max(pixels_img_1[x, y][2] - pixels_img_2[x, y][2], 0)
 
             # Atribuindo o novo valor de cor ao pixel resultante
             pixels_img_resultante[x, y] = (r, g, b)
@@ -81,7 +74,7 @@ def main():
     img_1 = Image.open(f"input/{imagem_manipulada_1}")
     img_2 = Image.open(f'input/{imagem_manipulada_2}')
 
-    #nova_img = subtracao(img_1, img_2, offset=80)
+    #nova_img = subtracao(img_1, img_2)
     nova_img = multiplicacao(img_1, img_2)
     
     # Salva a nova imagem
