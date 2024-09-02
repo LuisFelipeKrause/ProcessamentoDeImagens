@@ -65,17 +65,57 @@ def multiplicacao(img_1, img_2):
 
     return img_resultante
 
-def main():
-    imagens = {'cidade1': 'cidade_1.jpg', 'cidade2': 'cidade_2.jpg'}
+def rotacao(imagem, angulo):
+    from math import radians, cos, sin
 
-    imagem_manipulada_1 = imagens['cidade1']
+    # Converte o ângulo para radianos
+    theta = radians(angulo)
+    
+    # Obtém as dimensões da imagem
+    largura, altura = imagem.size
+    
+    # Calcula o centro da imagem
+    cx, cy = largura // 2, altura // 2
+    
+    # Cria uma nova imagem com fundo preto
+    nova_imagem = Image.new('RGB', (largura, altura))
+    pixels_origem = imagem.load()
+    pixels_nova = nova_imagem.load()
+
+    # Funções de rotação
+    cos_theta = cos(theta)
+    sin_theta = sin(theta)
+    
+    # Itera sobre cada pixel da nova imagem
+    for x in range(largura):
+        for y in range(altura):
+            # Desloca para o centro
+            x_offset = x - cx
+            y_offset = y - cy
+            
+            # Aplica a matriz de rotação
+            novo_x = int(cos_theta * x_offset - sin_theta * y_offset + cx)
+            novo_y = int(sin_theta * x_offset + cos_theta * y_offset + cy)
+            
+            # Se as novas coordenadas estiverem dentro da imagem original, define o pixel
+            if 0 <= novo_x < largura and 0 <= novo_y < altura:
+                pixels_nova[x, y] = pixels_origem[novo_x, novo_y]
+
+    return nova_imagem
+
+def main():
+    imagens = {'cidade1': 'cidade_1.jpg', 'cidade2': 'cidade_2.jpg', 'radiação': 'radiacao.jpg', 'gato': 'gato.jpg', 'aguia': 'aguia.jpg', 
+               'raiox': 'raiox.jpeg', 'moedas': 'moedas.jpg', 'pessoas': 'pessoas.jpg', 'objetos': 'objetos.jpg', 'superman': 'superman.png'}
+
+    imagem_manipulada_1 = imagens['superman']
     imagem_manipulada_2 = imagens['cidade2']
 
     img_1 = Image.open(f"input/{imagem_manipulada_1}")
     img_2 = Image.open(f'input/{imagem_manipulada_2}')
 
     #nova_img = subtracao(img_1, img_2)
-    nova_img = multiplicacao(img_1, img_2)
+    #nova_img = multiplicacao(img_1, img_2)
+    nova_img = rotacao(img_1, 90)
     
     # Salva a nova imagem
     try:
