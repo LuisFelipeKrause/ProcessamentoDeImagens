@@ -2,6 +2,15 @@ from PIL import Image
 
 
 def subtracao(img_1, img_2):
+    """
+        Função que subtrai os valores dos pixels de duas imagens.
+        As duas imagens devem ter as mesmas dimensões para que a operação possa ser feita.
+
+        :param img_1: imagem recebida para subtração;
+        :param img_2: imagem recebida para subtração;
+
+        :return img_resultante: retorna imagem gerada a partir da subtração.
+    """
     # Converter as imagens para o modo RGB se estiver em grayscale
     if img_1.mode != 'RGB':
         img_1 = img_1.convert('RGB')
@@ -24,6 +33,8 @@ def subtracao(img_1, img_2):
     # Iterando sobre cada pixel
     for x in range(largura):
         for y in range(altura):
+            # Para cada canal RGB, é escolhido o maior valor entre a subtração e 0, 
+            # para evitar que valores negativos sejam atribuidos.
             r = max(pixels_img_1[x, y][0] - pixels_img_2[x, y][0], 0)
             g = max(pixels_img_1[x, y][1] - pixels_img_2[x, y][1], 0)
             b = max(pixels_img_1[x, y][2] - pixels_img_2[x, y][2], 0)
@@ -34,6 +45,15 @@ def subtracao(img_1, img_2):
     return img_resultante
 
 def multiplicacao(img_1, img_2):
+    """
+        Função que multiplica os valores dos pixels de duas imagens.
+        As duas imagens devem ter as mesmas dimensões para que a operação possa ser feita.
+
+        :param img_1: imagem recebida para multiplicação;
+        :param img_2: imagem recebida para multiplicação;
+
+        :return img_resultante: retorna imagem gerada a partir da multiplicação.
+    """
     # Converter as imagens para o modo RGB se estiver em grayscale
     if img_1.mode != 'RGB':
         img_1 = img_1.convert('RGB')
@@ -56,6 +76,8 @@ def multiplicacao(img_1, img_2):
     # Iterando sobre cada pixel
     for x in range(largura):
         for y in range(altura):
+            # Para cada canal RGB, é escolhido o menor valor entre a multiplicação e 255, 
+            # para evitar que valores maiores que 255 sejam atribuidos.
             r = min(pixels_img_1[x, y][0] * pixels_img_2[x, y][0], 255)
             g = min(pixels_img_1[x, y][1] * pixels_img_2[x, y][1], 255)
             b = min(pixels_img_1[x, y][2] * pixels_img_2[x, y][2], 255)
@@ -66,6 +88,14 @@ def multiplicacao(img_1, img_2):
     return img_resultante
 
 def rotacao(imagem, angulo):
+    """
+        Função que faz a rotação de uma imagem.
+
+        :param imgagem: imagem recebida para rotação;
+        :param angulo: ângulo de rotação da imagem;
+
+        :return img_resultante: retorna imagem gerada após a rotação.
+    """
     from math import radians, cos, sin
 
     # Converte o ângulo para radianos
@@ -115,7 +145,7 @@ def main():
 
     #nova_img = subtracao(img_1, img_2)
     #nova_img = multiplicacao(img_1, img_2)
-    nova_img = rotacao(img_1, 90)
+    nova_img = rotacao(img_1, 45)
     
     # Salva a nova imagem
     try:

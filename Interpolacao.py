@@ -161,7 +161,7 @@ def main():
     imagens = {'radiação': 'radiacao.jpg', 'gato': 'gato.jpg', 'aguia': 'aguia.jpg', 
                'raiox': 'raiox.jpeg', 'moedas': 'moedas.jpg', 'pessoas': 'pessoas.jpg', 'objetos': 'objetos.jpg'}
 
-    imagem_manipulada = imagens['aguia']
+    imagem_manipulada = imagens['radiação']
 
     img = Image.open(f"input/{imagem_manipulada}")
     width, height = img.size
