@@ -8,7 +8,7 @@ def ampliar_vizinho_mais_proximo(img, largura_original, altura_original, dimensa
         :param img: imagem a ser ampliada
         :param largura_original: largura da imagem original em pixels
         :param altura_original: altura da imagem original em pixels
-        :dimensao_aumento: valor inteiro que representa o número de vezes que a imagem será ampliada
+        :param dimensao_aumento: valor inteiro que representa o número de vezes que a imagem será ampliada
 
         :return nova_img: retorna a imagem gerada
     """
