@@ -1,7 +1,7 @@
 from PIL import Image
 
 
-def ampliar_vizinho_mais_proximo(img, largura_original, altura_original, dimensao_aumento):
+def ampliar_vizinho_mais_proximo(img, dimensao_aumento):
     """
         Função que amplia imagem por vizinho mais próximo.
 
@@ -12,6 +12,8 @@ def ampliar_vizinho_mais_proximo(img, largura_original, altura_original, dimensa
 
         :return nova_img: retorna a imagem gerada
     """
+    # Pega os valores de largura e altura da imagem
+    largura_original, altura_original = img.size
 
     # Definição das novas dimensões da imagem
     largura_nova = largura_original * dimensao_aumento
@@ -31,7 +33,7 @@ def ampliar_vizinho_mais_proximo(img, largura_original, altura_original, dimensa
 
     return nova_img
 
-def reduzir_vizinho_mais_proximo(img, largura_original, altura_original, dimensao_reducao):
+def reduzir_vizinho_mais_proximo(img, dimensao_reducao):
     """
         Função que reduz imagem por vizinho mais próximo.
 
@@ -42,6 +44,8 @@ def reduzir_vizinho_mais_proximo(img, largura_original, altura_original, dimensa
 
         :return nova_img: retorna a imagem gerada
     """
+    # Pega os valores de largura e altura da ima
+    largura_original, altura_original = img.size
 
     # Definição das novas dimensões da imagem
     largura_nova = int(largura_original / dimensao_reducao)
@@ -61,7 +65,7 @@ def reduzir_vizinho_mais_proximo(img, largura_original, altura_original, dimensa
 
     return nova_img
 
-def reduzir_bilinear(img, largura_original, altura_original, dimensao_reducao):
+def reduzir_bilinear(img, dimensao_reducao):
     """
         Função que reduz imagem por interpolação bilinear.
 
@@ -72,6 +76,8 @@ def reduzir_bilinear(img, largura_original, altura_original, dimensao_reducao):
 
         :return nova_img: retorna a imagem gerada
     """
+    # Pega os valores de largura e altura da ima
+    largura_original, altura_original = img.size
 
     # Definição das novas dimensões da imagem
     largura_nova = int(largura_original / dimensao_reducao)
@@ -118,6 +124,8 @@ def ampliar_bilinear(img, largura_original, altura_original, dimensao_aumento):
 
         :return nova_img: retorna a imagem gerada
     """
+    # Pega os valores de largura e altura da ima
+    largura_original, altura_original = img.size
 
     # Definição das novas dimensões da imagem
     largura_nova = largura_original * dimensao_aumento
@@ -164,12 +172,11 @@ def main():
     imagem_manipulada = imagens['radiação']
 
     img = Image.open(f"input/{imagem_manipulada}")
-    width, height = img.size
 
-    #nova_img = ampliar_vizinho_mais_proximo(img, width, height, 2)
-    #nova_img = ampliar_bilinear(img, width, height, 2)
-    #nova_img = reduzir_vizinho_mais_proximo(img, width, height, 4)
-    nova_img = reduzir_bilinear(img, width, height, 2)
+    #nova_img = ampliar_vizinho_mais_proximo(img, 2)
+    #nova_img = ampliar_bilinear(img, 2)
+    #nova_img = reduzir_vizinho_mais_proximo(img, 4)
+    nova_img = reduzir_bilinear(img, 2)
 
     # Salva a nova imagem
     try:
