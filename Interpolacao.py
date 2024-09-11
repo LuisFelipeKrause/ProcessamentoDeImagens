@@ -113,7 +113,7 @@ def reduzir_bilinear(img, dimensao_reducao):
 
     return nova_img
 
-def ampliar_bilinear(img, largura_original, altura_original, dimensao_aumento):
+def ampliar_bilinear(img, dimensao_aumento):
     """
         Função que amplia uma imagem por interpolação bilinear.
 
@@ -175,7 +175,7 @@ def main():
 
     #nova_img = ampliar_vizinho_mais_proximo(img, 2)
     #nova_img = ampliar_bilinear(img, 2)
-    #nova_img = reduzir_vizinho_mais_proximo(img, 4)
+    #nova_img = reduzir_vizinho_mais_proximo(img, 2)
     nova_img = reduzir_bilinear(img, 2)
 
     # Salva a nova imagem
