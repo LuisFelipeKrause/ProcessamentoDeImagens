@@ -1,7 +1,7 @@
 from PIL import Image
 
 
-def subtracao(img_1, img_2):
+def soma(img_1, img_2):
     """
         Função que subtrai os valores dos pixels de duas imagens.
         As duas imagens devem ter as mesmas dimensões para que a operação possa ser feita.
@@ -21,7 +21,7 @@ def subtracao(img_1, img_2):
     
     if img_1.size != img_2.size:
         print("As imagens precisam ter o mesmo tamanho...")
-        return
+        return None
 
     # Criando uma imagem vazia para armazenar o resultado
     img_resultante = Image.new('RGB', (largura, altura))
@@ -35,9 +35,9 @@ def subtracao(img_1, img_2):
         for y in range(altura):
             # Para cada canal RGB, é escolhido o maior valor entre a subtração e 0, 
             # para evitar que valores negativos sejam atribuidos.
-            r = max(pixels_img_1[x, y][0] - pixels_img_2[x, y][0], 0)
-            g = max(pixels_img_1[x, y][1] - pixels_img_2[x, y][1], 0)
-            b = max(pixels_img_1[x, y][2] - pixels_img_2[x, y][2], 0)
+            r = min(pixels_img_1[x, y][0] + pixels_img_2[x, y][0], 255)
+            g = min(pixels_img_1[x, y][1] + pixels_img_2[x, y][1], 255)
+            b = min(pixels_img_1[x, y][2] + pixels_img_2[x, y][2], 255)
 
             # Atribuindo o novo valor de cor ao pixel resultante
             pixels_img_resultante[x, y] = (r, g, b)
@@ -105,7 +105,7 @@ def rotacao(imagem, angulo):
     largura, altura = imagem.size
     
     # Calcula o centro da imagem
-    cx, cy = largura // 2, altura // 2
+    centro_x, centro_y = largura // 2, altura // 2
     
     # Cria uma nova imagem com fundo preto
     nova_imagem = Image.new('RGB', (largura, altura))
@@ -120,12 +120,12 @@ def rotacao(imagem, angulo):
     for x in range(largura):
         for y in range(altura):
             # Desloca para o centro
-            x_offset = x - cx
-            y_offset = y - cy
+            x_offset = x - centro_x
+            y_offset = y - centro_y
             
             # Aplica a matriz de rotação
-            novo_x = int(cos_theta * x_offset - sin_theta * y_offset + cx)
-            novo_y = int(sin_theta * x_offset + cos_theta * y_offset + cy)
+            novo_x = int(cos_theta * x_offset - sin_theta * y_offset + centro_x)
+            novo_y = int(sin_theta * x_offset + cos_theta * y_offset + centro_y)
             
             # Se as novas coordenadas estiverem dentro da imagem original, define o pixel
             if 0 <= novo_x < largura and 0 <= novo_y < altura:
@@ -137,15 +137,15 @@ def main():
     imagens = {'cidade1': 'cidade_1.jpg', 'cidade2': 'cidade_2.jpg', 'radiação': 'radiacao.jpg', 'gato': 'gato.jpg', 'aguia': 'aguia.jpg', 
                'raiox': 'raiox.jpeg', 'moedas': 'moedas.jpg', 'pessoas': 'pessoas.jpg', 'objetos': 'objetos.jpg', 'superman': 'superman.png'}
 
-    imagem_manipulada_1 = imagens['superman']
+    imagem_manipulada_1 = imagens['cidade1']
     imagem_manipulada_2 = imagens['cidade2']
 
     img_1 = Image.open(f"input/{imagem_manipulada_1}")
     img_2 = Image.open(f'input/{imagem_manipulada_2}')
 
-    #nova_img = subtracao(img_1, img_2)
+    nova_img = soma(img_1, img_2)
     #nova_img = multiplicacao(img_1, img_2)
-    nova_img = rotacao(img_1, 45)
+    #nova_img = rotacao(img_1, 180)
     
     # Salva a nova imagem
     try:
