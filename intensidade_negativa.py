@@ -41,11 +41,11 @@ def main():
     imagens = {'radiação': 'radiacao.jpg', 'gato': 'gato.jpg', 'aguia': 'aguia.jpg', 'superman':'superman.png',
                'raiox': 'raiox.jpeg', 'moedas': 'moedas.jpg', 'pessoas': 'pessoas.jpg', 'objetos': 'objetos.jpg'}
 
-    imagem_manipulada = imagens['raiox']
+    imagem_manipulada = imagens['aguia']
 
     img = Image.open(f"input/{imagem_manipulada}")
 
-    nova_img = transformar_negativa_GS(img)
+    nova_img = transformar_negativa_RGB(img)
     
     # Salva a nova imagem
     try:
