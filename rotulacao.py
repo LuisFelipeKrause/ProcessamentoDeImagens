@@ -10,6 +10,8 @@ def preto_branco(img):
 
         :return nova_img: retorna a imagem binária gerada
     """
+    if img.mode != 'RGB':
+        img = img.convert('RGB')
 
     largura, altura = img.size
 

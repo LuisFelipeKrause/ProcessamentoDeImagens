@@ -12,6 +12,9 @@ def ampliar_vizinho_mais_proximo(img, dimensao_aumento):
 
         :return nova_img: retorna a imagem gerada
     """
+    if img.mode != 'RGB':
+        img = img.convert('RGB')
+        
     # Pega os valores de largura e altura da imagem
     largura_original, altura_original = img.size
 
@@ -44,6 +47,9 @@ def reduzir_vizinho_mais_proximo(img, dimensao_reducao):
 
         :return nova_img: retorna a imagem gerada
     """
+    if img.mode != 'RGB':
+        img = img.convert('RGB')
+
     # Pega os valores de largura e altura da ima
     largura_original, altura_original = img.size
 
@@ -76,6 +82,9 @@ def reduzir_bilinear(img, dimensao_reducao):
 
         :return nova_img: retorna a imagem gerada
     """
+    if img.mode != 'RGB':
+        img = img.convert('RGB')
+
     # Pega os valores de largura e altura da ima
     largura_original, altura_original = img.size
 
@@ -124,6 +133,9 @@ def ampliar_bilinear(img, dimensao_aumento):
 
         :return nova_img: retorna a imagem gerada
     """
+    if img.mode != 'RGB':
+        img = img.convert('RGB')
+
     # Pega os valores de largura e altura da ima
     largura_original, altura_original = img.size
 
@@ -166,17 +178,17 @@ def ampliar_bilinear(img, dimensao_aumento):
 
 
 def main():
-    imagens = {'radiação': 'radiacao.jpg', 'gato': 'gato.jpg', 'aguia': 'aguia.jpg', 
+    imagens = {'radiação': 'radiacao.jpg', 'gato': 'gato.jpg', 'aguia': 'aguia.jpg', 'texto':'texto.png',
                'raiox': 'raiox.jpeg', 'moedas': 'moedas.jpg', 'pessoas': 'pessoas.jpg', 'objetos': 'objetos.jpg'}
 
-    imagem_manipulada = imagens['radiação']
+    imagem_manipulada = imagens['texto']
 
     img = Image.open(f"input/{imagem_manipulada}")
 
     #nova_img = ampliar_vizinho_mais_proximo(img, 2)
     #nova_img = ampliar_bilinear(img, 2)
     #nova_img = reduzir_vizinho_mais_proximo(img, 2)
-    nova_img = reduzir_bilinear(img, 2)
+    nova_img = reduzir_bilinear(img, 3)
 
     # Salva a nova imagem
     try:
