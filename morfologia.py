@@ -1,4 +1,10 @@
+# Alunos: Luís Felipe Krause de Castro & Patryck Henryck Moreira Silva
+
 from PIL import Image
+
+# Abertura e fechamento de imagem binária
+# Dilatação e erosão de imagem em escala de cinza
+
 
 
 def binarizar_img(img):
